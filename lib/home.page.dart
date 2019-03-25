@@ -5,7 +5,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Home Page"),
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, "/swipeAnimation");
+              },
+              title: Text("Swipe Animation"),
+              trailing: Icon(
+                Icons.arrow_forward,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
