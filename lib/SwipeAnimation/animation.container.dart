@@ -8,6 +8,7 @@ class AnimationContainer extends StatefulWidget {
 
 class _AnimationContainerState extends State<AnimationContainer>
     with SingleTickerProviderStateMixin {
+  Animation _curve;
   Animation<double> _animation;
   AnimationController _controller;
 
@@ -20,9 +21,19 @@ class _AnimationContainerState extends State<AnimationContainer>
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0, end: 500).animate(_controller)
+    _curve = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+
+    _animation = Tween<double>(begin: 0, end: 500).animate(_curve)
       ..addListener(() {
         setState(() {});
+      })
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        }
       });
   }
 
