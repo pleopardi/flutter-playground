@@ -23,7 +23,7 @@ class _AnimationContainerState extends State<AnimationContainer>
 
     _curve = CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeOut,
+      curve: Curves.easeInOut,
     );
 
     _animation = Tween<double>(begin: 0, end: 500).animate(_curve)
