@@ -40,12 +40,15 @@ class _AnimationContainerState extends State<AnimationContainer>
       });
   }
 
-  void handleTap() {
+  void animateForward() {
     _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child(_animation.value, handleTap);
+    return widget.child(
+      animateForward: animateForward,
+      delta: _animation.value,
+    );
   }
 }

@@ -5,20 +5,24 @@ class ItemContainer extends StatelessWidget {
   final double _cardWidth = 200.0;
 
   @required
+  final Function animateForward;
+  @required
   final Function child;
   @required
   final double delta;
-  @required
-  final Function handleTap;
 
-  ItemContainer({this.child, this.delta, this.handleTap});
+  ItemContainer({
+    this.animateForward,
+    this.child,
+    this.delta,
+  });
 
   @override
   Widget build(BuildContext context) {
     final _pageSize = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: handleTap,
+      onTap: animateForward,
       child: Container(
         alignment: Alignment.center,
         child: Stack(

@@ -8,11 +8,14 @@ class SwipeAnimationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimationContainer(
-        child: (double delta, Function handleTap) {
+        child: ({
+          Function animateForward,
+          double delta,
+        }) {
           return ItemContainer(
+            animateForward: animateForward,
             child: () => Item(),
             delta: delta,
-            handleTap: handleTap,
           );
         },
       ),
