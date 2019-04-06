@@ -3,19 +3,22 @@ import "package:flutter/material.dart";
 
 class ItemContainer extends StatefulWidget {
   @required
-  final Function animateLeft;
-  @required
-  final Function animateRight;
+  final Function animate;
   @required
   final Function child;
   @required
   final double delta;
+  @required
+  final Function setTweenBegin;
+  @required
+  final Function setTweenEnd;
 
   ItemContainer({
-    this.animateLeft,
-    this.animateRight,
+    this.animate,
     this.child,
     this.delta,
+    this.setTweenBegin,
+    this.setTweenEnd,
   });
 
   @override
@@ -29,14 +32,20 @@ class _ItemContainerState extends State<ItemContainer> {
   double _dy = 0.0;
 
   void handlePanEnd(DragEndDetails details) {
+    // Move right
     if (_dx > _cardWidth / 3) {
-      widget.animateRight();
+      widget.setTweenBegin(0.0);
+      widget.setTweenEnd(500.0);
+      widget.animate();
 
       return;
     }
 
+    // Move left
     if (_dx < -_cardWidth / 3) {
-      widget.animateLeft();
+      widget.setTweenBegin(0.0);
+      widget.setTweenEnd(-500.0);
+      widget.animate();
 
       return;
     }
@@ -71,7 +80,7 @@ class _ItemContainerState extends State<ItemContainer> {
           children: <Widget>[
             Positioned(
               child: widget.child(),
-              left: _pageSize.width / 2 - _cardWidth / 2 - widget.delta + _dx,
+              left: _pageSize.width / 2 - _cardWidth / 2 + _dx + widget.delta,
               top: _pageSize.height / 2 -
                   _cardHeight / 2 +
                   -widget.delta.abs() / 3 +

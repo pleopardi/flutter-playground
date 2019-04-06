@@ -9,16 +9,17 @@ class SwipeAnimationPage extends StatelessWidget {
     return Scaffold(
       body: AnimationContainer(
         child: ({
-          Function animateLeft,
-          Function animateRight,
-          double delta,
+          @required Function animate,
+          @required double delta,
+          @required Function setTweenBegin,
+          @required Function setTweenEnd,
         }) {
           return ItemContainer(
-            animateLeft: animateLeft,
-            animateRight: animateRight,
-            child: () => Item(),
-            delta: delta,
-          );
+              animate: animate,
+              child: () => Item(),
+              delta: delta,
+              setTweenBegin: setTweenBegin,
+              setTweenEnd: setTweenEnd);
         },
       ),
     );

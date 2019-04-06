@@ -10,63 +10,57 @@ class AnimationContainer extends StatefulWidget {
 }
 
 class _AnimationContainerState extends State<AnimationContainer>
-    with TickerProviderStateMixin {
-  Animation _curveLeft;
-  Animation<double> _animationLeft;
-  AnimationController _controllerLeft;
-  Animation _curveRight;
-  Animation<double> _animationRight;
-  AnimationController _controllerRight;
+    with SingleTickerProviderStateMixin {
+  Animation<double> _animation;
+  AnimationController _controller;
+  Animation _curve;
+  Tween<double> _tween;
 
   @override
   void initState() {
     super.initState();
 
-    _controllerLeft = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
-    _curveLeft = CurvedAnimation(
-      parent: _controllerLeft,
+    _curve = CurvedAnimation(
+      parent: _controller,
       curve: Curves.easeInOut,
     );
 
-    _animationLeft = Tween<double>(begin: 0, end: 500).animate(_curveLeft)
-      ..addListener(() {
-        setState(() {});
-      });
-
-    _controllerRight = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
+    _tween = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
     );
 
-    _curveRight = CurvedAnimation(
-      parent: _controllerRight,
-      curve: Curves.easeInOut,
-    );
-
-    _animationRight = Tween<double>(begin: 0, end: 500).animate(_curveRight)
+    _animation = _tween.animate(_curve)
       ..addListener(() {
         setState(() {});
       });
   }
 
-  void _animateLeft() {
-    _controllerLeft.forward();
+  void _setTweenBegin(double begin) {
+    _tween.begin = begin;
   }
 
-  void _animateRight() {
-    _controllerRight.forward();
+  void _setTweenEnd(double end) {
+    _tween.end = end;
+  }
+
+  void _animate() {
+    _controller.reset();
+    _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.child(
-      animateLeft: _animateLeft,
-      animateRight: _animateRight,
-      delta: _animationLeft.value - _animationRight.value,
+      animate: _animate,
+      delta: _animation.value,
+      setTweenBegin: _setTweenBegin,
+      setTweenEnd: _setTweenEnd,
     );
   }
 }
