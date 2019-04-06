@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
-import "./itemWrapper.dart";
 
 class AnimationContainer extends StatefulWidget {
-  final Widget child;
+  final Function child;
 
   AnimationContainer({this.child});
 
@@ -12,16 +11,17 @@ class AnimationContainer extends StatefulWidget {
 
 class _AnimationContainerState extends State<AnimationContainer>
     with SingleTickerProviderStateMixin {
-  Animation _curve;
   Animation<double> _animation;
   AnimationController _controller;
+  Animation _curve;
+  Tween<double> _tween;
 
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
@@ -30,29 +30,37 @@ class _AnimationContainerState extends State<AnimationContainer>
       curve: Curves.easeInOut,
     );
 
-    _animation = Tween<double>(begin: 0, end: 500).animate(_curve)
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _controller.reverse();
-        }
+    _tween = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    );
+
+    _animation = _tween.animate(_curve)
+      ..addListener(() {
+        setState(() {});
       });
   }
 
-  void handleTap() {
-    _controller.forward();
+  void _setTweenBegin(double begin) {
+    _tween.begin = begin;
+  }
+
+  void _setTweenEnd(double end) {
+    _tween.end = end;
+  }
+
+  TickerFuture _animate() {
+    _controller.reset();
+    return _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animation,
-        child: widget.child,
-        builder: (BuildContext context, Widget child) {
-          return ItemWrapper(
-            child: child,
-            delta: _animation.value,
-            handleTap: handleTap,
-          );
-        });
+    return widget.child(
+      animate: _animate,
+      animationValue: _animation.value,
+      setTweenBegin: _setTweenBegin,
+      setTweenEnd: _setTweenEnd,
+    );
   }
 }
