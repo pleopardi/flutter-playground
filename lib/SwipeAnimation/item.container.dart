@@ -1,9 +1,6 @@
 import "package:flutter/material.dart";
 
-class ItemContainer extends StatelessWidget {
-  final double _cardHeight = 200.0;
-  final double _cardWidth = 200.0;
-
+class ItemContainer extends StatefulWidget {
   @required
   final Function animateForward;
   @required
@@ -18,20 +15,28 @@ class ItemContainer extends StatelessWidget {
   });
 
   @override
+  _ItemContainerState createState() => _ItemContainerState();
+}
+
+class _ItemContainerState extends State<ItemContainer> {
+  final double _cardHeight = 200.0;
+  final double _cardWidth = 200.0;
+
+  @override
   Widget build(BuildContext context) {
     final _pageSize = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: animateForward,
+      onTap: widget.animateForward,
       child: Container(
         alignment: Alignment.center,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              child: child(),
-              left: _pageSize.width / 2 - _cardWidth / 2 - delta,
-              top: _pageSize.height / 2 - _cardHeight / 2 - delta / 3,
+              child: widget.child(),
+              left: _pageSize.width / 2 - _cardWidth / 2 - widget.delta,
+              top: _pageSize.height / 2 - _cardHeight / 2 - widget.delta / 3,
             ),
           ],
         ),
