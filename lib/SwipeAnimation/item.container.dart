@@ -1,15 +1,19 @@
+import "dart:core";
 import "package:flutter/material.dart";
 
 class ItemContainer extends StatefulWidget {
   @required
-  final Function animateForward;
+  final Function animateLeft;
+  @required
+  final Function animateRight;
   @required
   final Function child;
   @required
   final double delta;
 
   ItemContainer({
-    this.animateForward,
+    this.animateLeft,
+    this.animateRight,
     this.child,
     this.delta,
   });
@@ -25,6 +29,18 @@ class _ItemContainerState extends State<ItemContainer> {
   double _dy = 0.0;
 
   void handlePanEnd(DragEndDetails details) {
+    if (_dx > _cardWidth / 3) {
+      widget.animateRight();
+
+      return;
+    }
+
+    if (_dx < -_cardWidth / 3) {
+      widget.animateLeft();
+
+      return;
+    }
+
     setState(() {
       _dx = 0;
       _dy = 0;
@@ -47,7 +63,7 @@ class _ItemContainerState extends State<ItemContainer> {
     return GestureDetector(
       onPanEnd: handlePanEnd,
       onPanUpdate: handlePanUpdate,
-      onTap: widget.animateForward,
+      onTap: () {},
       child: Container(
         alignment: Alignment.center,
         child: Stack(
@@ -57,8 +73,8 @@ class _ItemContainerState extends State<ItemContainer> {
               child: widget.child(),
               left: _pageSize.width / 2 - _cardWidth / 2 - widget.delta + _dx,
               top: _pageSize.height / 2 -
-                  _cardHeight / 2 -
-                  widget.delta / 3 +
+                  _cardHeight / 2 +
+                  -widget.delta.abs() / 3 +
                   _dy,
             ),
           ],

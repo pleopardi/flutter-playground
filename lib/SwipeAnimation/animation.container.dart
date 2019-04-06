@@ -10,45 +10,63 @@ class AnimationContainer extends StatefulWidget {
 }
 
 class _AnimationContainerState extends State<AnimationContainer>
-    with SingleTickerProviderStateMixin {
-  Animation _curve;
-  Animation<double> _animation;
-  AnimationController _controller;
+    with TickerProviderStateMixin {
+  Animation _curveLeft;
+  Animation<double> _animationLeft;
+  AnimationController _controllerLeft;
+  Animation _curveRight;
+  Animation<double> _animationRight;
+  AnimationController _controllerRight;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+    _controllerLeft = AnimationController(
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
-    _curve = CurvedAnimation(
-      parent: _controller,
+    _curveLeft = CurvedAnimation(
+      parent: _controllerLeft,
       curve: Curves.easeInOut,
     );
 
-    _animation = Tween<double>(begin: 0, end: 500).animate(_curve)
+    _animationLeft = Tween<double>(begin: 0, end: 500).animate(_curveLeft)
       ..addListener(() {
         setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _controller.reverse();
-        }
+      });
+
+    _controllerRight = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _curveRight = CurvedAnimation(
+      parent: _controllerRight,
+      curve: Curves.easeInOut,
+    );
+
+    _animationRight = Tween<double>(begin: 0, end: 500).animate(_curveRight)
+      ..addListener(() {
+        setState(() {});
       });
   }
 
-  void animateForward() {
-    _controller.forward();
+  void _animateLeft() {
+    _controllerLeft.forward();
+  }
+
+  void _animateRight() {
+    _controllerRight.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.child(
-      animateForward: animateForward,
-      delta: _animation.value,
+      animateLeft: _animateLeft,
+      animateRight: _animateRight,
+      delta: _animationLeft.value - _animationRight.value,
     );
   }
 }

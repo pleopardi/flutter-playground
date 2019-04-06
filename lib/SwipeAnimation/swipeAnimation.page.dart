@@ -9,11 +9,13 @@ class SwipeAnimationPage extends StatelessWidget {
     return Scaffold(
       body: AnimationContainer(
         child: ({
-          Function animateForward,
+          Function animateLeft,
+          Function animateRight,
           double delta,
         }) {
           return ItemContainer(
-            animateForward: animateForward,
+            animateLeft: animateLeft,
+            animateRight: animateRight,
             child: () => Item(),
             delta: delta,
           );
