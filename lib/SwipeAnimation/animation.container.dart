@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
-import "./itemWrapper.dart";
 
 class AnimationContainer extends StatefulWidget {
-  final Widget child;
+  final Function child;
 
   AnimationContainer({this.child});
 
@@ -31,6 +30,9 @@ class _AnimationContainerState extends State<AnimationContainer>
     );
 
     _animation = Tween<double>(begin: 0, end: 500).animate(_curve)
+      ..addListener(() {
+        setState(() {});
+      })
       ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed) {
           _controller.reverse();
@@ -44,15 +46,6 @@ class _AnimationContainerState extends State<AnimationContainer>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animation,
-        child: widget.child,
-        builder: (BuildContext context, Widget child) {
-          return ItemWrapper(
-            child: child,
-            delta: _animation.value,
-            handleTap: handleTap,
-          );
-        });
+    return widget.child(_animation.value, handleTap);
   }
 }
