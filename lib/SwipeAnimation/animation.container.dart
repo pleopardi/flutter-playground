@@ -49,9 +49,9 @@ class _AnimationContainerState extends State<AnimationContainer>
     _tween.end = end;
   }
 
-  void _animate() {
+  TickerFuture _animate() {
     _controller.reset();
-    _controller.forward();
+    return _controller.forward();
   }
 
   @override

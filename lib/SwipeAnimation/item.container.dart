@@ -11,6 +11,8 @@ class ItemContainer extends StatefulWidget {
   final double animationValue; // Current animation value
   @required
   final Function child;
+  final Function handleDismiss;
+  final Function handleSave;
   @required
   final Function setTweenBegin;
   @required
@@ -21,6 +23,8 @@ class ItemContainer extends StatefulWidget {
     this.animationThreshold,
     this.animationValue,
     this.child,
+    this.handleDismiss,
+    this.handleSave,
     this.setTweenBegin,
     this.setTweenEnd,
   });
@@ -40,7 +44,11 @@ class _ItemContainerState extends State<ItemContainer> {
     if (_dx > widget.animationThreshold) {
       widget.setTweenBegin(0.0);
       widget.setTweenEnd(500.0);
-      widget.animate();
+      widget.animate().then((void value) {
+        if (widget.handleSave != null) {
+          widget.handleSave(value);
+        }
+      });
 
       return;
     }
@@ -49,18 +57,21 @@ class _ItemContainerState extends State<ItemContainer> {
     if (_dx < -widget.animationThreshold) {
       widget.setTweenBegin(0.0);
       widget.setTweenEnd(-500.0);
-      widget.animate();
+      widget.animate().then((void value) {
+        if (widget.handleDismiss != null) {
+          widget.handleDismiss(value);
+        }
+      });
 
       return;
     }
 
+    // Move back to center
     setState(() {
       _dx = 0;
       _dy = 0;
     });
   }
-
-  void handlePanStart(DragStartDetails details) {}
 
   void handlePanUpdate(DragUpdateDetails details) {
     setState(() {
@@ -76,7 +87,6 @@ class _ItemContainerState extends State<ItemContainer> {
     return GestureDetector(
       onPanEnd: handlePanEnd,
       onPanUpdate: handlePanUpdate,
-      onTap: () {},
       child: Container(
         alignment: Alignment.center,
         child: Stack(
