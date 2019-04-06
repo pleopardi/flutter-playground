@@ -58,7 +58,7 @@ class _AnimationContainerState extends State<AnimationContainer>
   Widget build(BuildContext context) {
     return widget.child(
       animate: _animate,
-      delta: _animation.value,
+      animationValue: _animation.value,
       setTweenBegin: _setTweenBegin,
       setTweenEnd: _setTweenEnd,
     );

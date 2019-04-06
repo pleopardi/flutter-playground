@@ -5,9 +5,12 @@ class ItemContainer extends StatefulWidget {
   @required
   final Function animate;
   @required
-  final Function child;
+  final double
+      animationThreshold; // The minimum horizontal dragging, in pixels, to start the swipe animation
   @required
-  final double delta;
+  final double animationValue; // Current animation value
+  @required
+  final Function child;
   @required
   final Function setTweenBegin;
   @required
@@ -15,8 +18,9 @@ class ItemContainer extends StatefulWidget {
 
   ItemContainer({
     this.animate,
+    this.animationThreshold,
+    this.animationValue,
     this.child,
-    this.delta,
     this.setTweenBegin,
     this.setTweenEnd,
   });
@@ -33,7 +37,7 @@ class _ItemContainerState extends State<ItemContainer> {
 
   void handlePanEnd(DragEndDetails details) {
     // Move right
-    if (_dx > _cardWidth / 3) {
+    if (_dx > widget.animationThreshold) {
       widget.setTweenBegin(0.0);
       widget.setTweenEnd(500.0);
       widget.animate();
@@ -42,7 +46,7 @@ class _ItemContainerState extends State<ItemContainer> {
     }
 
     // Move left
-    if (_dx < -_cardWidth / 3) {
+    if (_dx < -widget.animationThreshold) {
       widget.setTweenBegin(0.0);
       widget.setTweenEnd(-500.0);
       widget.animate();
@@ -80,10 +84,13 @@ class _ItemContainerState extends State<ItemContainer> {
           children: <Widget>[
             Positioned(
               child: widget.child(),
-              left: _pageSize.width / 2 - _cardWidth / 2 + _dx + widget.delta,
+              left: _pageSize.width / 2 -
+                  _cardWidth / 2 +
+                  _dx +
+                  widget.animationValue,
               top: _pageSize.height / 2 -
                   _cardHeight / 2 +
-                  -widget.delta.abs() / 3 +
+                  -widget.animationValue.abs() / 3 +
                   _dy,
             ),
           ],

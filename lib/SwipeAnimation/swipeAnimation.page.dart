@@ -10,14 +10,15 @@ class SwipeAnimationPage extends StatelessWidget {
       body: AnimationContainer(
         child: ({
           @required Function animate,
-          @required double delta,
+          @required double animationValue,
           @required Function setTweenBegin,
           @required Function setTweenEnd,
         }) {
           return ItemContainer(
               animate: animate,
+              animationValue: animationValue,
+              animationThreshold: 100.0,
               child: () => Item(),
-              delta: delta,
               setTweenBegin: setTweenBegin,
               setTweenEnd: setTweenEnd);
         },
