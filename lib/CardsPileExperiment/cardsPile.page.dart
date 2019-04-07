@@ -6,9 +6,8 @@ class CardsPilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
-          child: Item(),
-        ),
+        alignment: Alignment.center,
+        child: Item(),
       ),
     );
   }
