@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "./swipeAnimation.dart";
+import "./SwipeAnimation/swipeAnimation.dart";
 import "./item.dart";
 
 class SwipeAnimationPage extends StatelessWidget {
@@ -14,7 +14,7 @@ class SwipeAnimationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: swipeAnimation(
+      body: SwipeAnimation(
         handleDismiss: handleDismiss,
         handleSave: handleSave,
         renderChild: () => Item(),
