@@ -84,27 +84,16 @@ class _ItemContainerState extends State<ItemContainer> {
   Widget build(BuildContext context) {
     final _pageSize = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onPanEnd: handlePanEnd,
-      onPanUpdate: handlePanUpdate,
-      child: Container(
-        alignment: Alignment.center,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              child: widget.child(),
-              left: _pageSize.width / 2 -
-                  _cardWidth / 2 +
-                  _dx +
-                  widget.animationValue,
-              top: _pageSize.height / 2 -
-                  _cardHeight / 2 +
-                  -widget.animationValue.abs() / 3 +
-                  _dy,
-            ),
-          ],
-        ),
+    return Positioned(
+      left: _pageSize.width / 2 - _cardWidth / 2 + _dx + widget.animationValue,
+      top: _pageSize.height / 2 -
+          _cardHeight / 2 +
+          -widget.animationValue.abs() / 3 +
+          _dy,
+      child: GestureDetector(
+        onPanEnd: handlePanEnd,
+        onPanUpdate: handlePanUpdate,
+        child: widget.child(),
       ),
     );
   }
