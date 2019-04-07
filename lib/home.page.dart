@@ -9,6 +9,15 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             ListTile(
               onTap: () {
+                Navigator.pushNamed(context, "/cardsPile");
+              },
+              title: Text("Cards' Pile"),
+              trailing: Icon(
+                Icons.arrow_forward,
+              ),
+            ),
+            ListTile(
+              onTap: () {
                 Navigator.pushNamed(context, "/swipeAnimation");
               },
               title: Text("Swipe Animation"),
