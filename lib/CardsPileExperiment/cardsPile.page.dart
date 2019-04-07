@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "./item.dart";
 
 class CardsPilePage extends StatelessWidget {
   @override
@@ -6,9 +7,7 @@ class CardsPilePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text(
-            "Cards' Pile Page",
-          ),
+          child: Item(),
         ),
       ),
     );
