@@ -1,33 +1,23 @@
 import "package:flutter/material.dart";
-import "./animation.container.dart";
-import "./item.container.dart";
+import "./swipeAnimation.dart";
 import "./item.dart";
 
 class SwipeAnimationPage extends StatelessWidget {
+  void handleDismiss(_) {
+    print("Dismissed");
+  }
+
+  void handleSave(_) {
+    print("Saved");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimationContainer(
-        child: ({
-          @required Function animate,
-          @required double animationValue,
-          @required Function setTweenBegin,
-          @required Function setTweenEnd,
-        }) {
-          return ItemContainer(
-              animate: animate,
-              animationThreshold: 100.0,
-              animationValue: animationValue,
-              child: () => Item(),
-              handleDismiss: (_) {
-                print("Dismissed");
-              },
-              handleSave: (_) {
-                print("Saved");
-              },
-              setTweenBegin: setTweenBegin,
-              setTweenEnd: setTweenEnd);
-        },
+      body: swipeAnimation(
+        handleDismiss: handleDismiss,
+        handleSave: handleSave,
+        renderChild: () => Item(),
       ),
     );
   }
