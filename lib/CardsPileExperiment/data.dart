@@ -10,21 +10,27 @@ List<MaterialColor> itemsColors = [
 
 class ItemData {
   @required
-  final double bottom;
-  @required
   final MaterialColor color;
+  @required
+  final String text;
+
+  ItemData({
+    this.color,
+    this.text,
+  });
+}
+
+class ItemPosition {
+  @required
+  final double bottom;
   @required
   final double height;
   @required
-  final String text;
-  @required
   final double width;
 
-  ItemData({
+  ItemPosition({
     this.bottom,
-    this.color,
     this.height,
-    this.text,
     this.width,
   });
 }
