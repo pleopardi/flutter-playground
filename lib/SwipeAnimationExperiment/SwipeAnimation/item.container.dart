@@ -52,6 +52,12 @@ class _ItemContainerState extends State<ItemContainer> {
         if (widget.handleSave != null) {
           widget.handleSave(value);
         }
+
+        // Move back to center
+        setState(() {
+          _dx = 0;
+          _dy = 0;
+        });
       });
 
       return;
@@ -65,6 +71,12 @@ class _ItemContainerState extends State<ItemContainer> {
         if (widget.handleDismiss != null) {
           widget.handleDismiss(value);
         }
+
+        // Move back to center
+        setState(() {
+          _dx = 0;
+          _dy = 0;
+        });
       });
 
       return;
