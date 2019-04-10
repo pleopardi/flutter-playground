@@ -10,9 +10,13 @@ class ItemContainer extends StatefulWidget {
   @required
   final double animationValue; // Current animation value
   @required
+  final double bottom;
+  @required
   final Function child;
   final Function handleDismiss;
   final Function handleSave;
+  @required
+  final double left;
   @required
   final Function setTweenBegin;
   @required
@@ -22,9 +26,11 @@ class ItemContainer extends StatefulWidget {
     this.animate,
     this.animationThreshold,
     this.animationValue,
+    this.bottom,
     this.child,
     this.handleDismiss,
     this.handleSave,
+    this.left,
     this.setTweenBegin,
     this.setTweenEnd,
   });
@@ -34,8 +40,6 @@ class ItemContainer extends StatefulWidget {
 }
 
 class _ItemContainerState extends State<ItemContainer> {
-  final double _cardHeight = 200.0;
-  final double _cardWidth = 200.0;
   double _dx = 0.0;
   double _dy = 0.0;
 
@@ -82,14 +86,9 @@ class _ItemContainerState extends State<ItemContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final _pageSize = MediaQuery.of(context).size;
-
     return Positioned(
-      left: _pageSize.width / 2 - _cardWidth / 2 + _dx + widget.animationValue,
-      top: _pageSize.height / 2 -
-          _cardHeight / 2 +
-          -widget.animationValue.abs() / 3 +
-          _dy,
+      bottom: widget.bottom + widget.animationValue.abs() / 3 - _dy,
+      left: widget.left + _dx + widget.animationValue,
       child: GestureDetector(
         onPanEnd: handlePanEnd,
         onPanUpdate: handlePanUpdate,
