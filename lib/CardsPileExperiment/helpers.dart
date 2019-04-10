@@ -8,10 +8,10 @@ MaterialColor getItemColor(int index) {
 List<ItemData> generateItemsData({
   @required int count,
   @required double deltaBottom,
-  @required double initialHeight,
-  @required double initialWidth,
   double deltaHeight,
   double deltaWidth,
+  @required double initialHeight,
+  @required double initialWidth,
 }) {
   final double actualDeltaHeight = deltaHeight ?? initialHeight / 10;
   final double actualDeltaWidth = deltaWidth ?? initialWidth / 10;
