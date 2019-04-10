@@ -14,14 +14,10 @@ class SwipeAnimationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SwipeAnimation(
-            handleDismiss: handleDismiss,
-            handleSave: handleSave,
-            renderChild: () => Item(),
-          ),
-        ],
+      body: SwipeAnimation(
+        handleDismiss: handleDismiss,
+        handleSave: handleSave,
+        renderChild: () => Item(),
       ),
     );
   }

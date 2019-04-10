@@ -10,13 +10,9 @@ class ItemContainer extends StatefulWidget {
   @required
   final double animationValue; // Current animation value
   @required
-  final double bottom;
-  @required
   final Function child;
   final Function handleDismiss;
   final Function handleSave;
-  @required
-  final double left;
   @required
   final Function setTweenBegin;
   @required
@@ -26,11 +22,9 @@ class ItemContainer extends StatefulWidget {
     this.animate,
     this.animationThreshold,
     this.animationValue,
-    this.bottom,
     this.child,
     this.handleDismiss,
     this.handleSave,
-    this.left,
     this.setTweenBegin,
     this.setTweenEnd,
   });
@@ -98,14 +92,22 @@ class _ItemContainerState extends State<ItemContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: widget.bottom + widget.animationValue.abs() / 3 - _dy,
-      left: widget.left + _dx + widget.animationValue,
-      child: GestureDetector(
-        onPanEnd: handlePanEnd,
-        onPanUpdate: handlePanUpdate,
-        child: widget.child(),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Align(
+          alignment: Alignment(
+            0.0 + (_dx + widget.animationValue) / (constraints.maxWidth / 2),
+            0.0 +
+                (_dy - widget.animationValue.abs() / 3) /
+                    (constraints.maxHeight / 2),
+          ),
+          child: GestureDetector(
+            onPanEnd: handlePanEnd,
+            onPanUpdate: handlePanUpdate,
+            child: widget.child(),
+          ),
+        );
+      },
     );
   }
 }
