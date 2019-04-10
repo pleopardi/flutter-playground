@@ -34,8 +34,6 @@ class ItemContainer extends StatefulWidget {
 }
 
 class _ItemContainerState extends State<ItemContainer> {
-  final double _cardHeight = 200.0;
-  final double _cardWidth = 200.0;
   double _dx = 0.0;
   double _dy = 0.0;
 
@@ -48,6 +46,12 @@ class _ItemContainerState extends State<ItemContainer> {
         if (widget.handleSave != null) {
           widget.handleSave(value);
         }
+
+        // Move back to center
+        setState(() {
+          _dx = 0;
+          _dy = 0;
+        });
       });
 
       return;
@@ -61,6 +65,12 @@ class _ItemContainerState extends State<ItemContainer> {
         if (widget.handleDismiss != null) {
           widget.handleDismiss(value);
         }
+
+        // Move back to center
+        setState(() {
+          _dx = 0;
+          _dy = 0;
+        });
       });
 
       return;
@@ -82,30 +92,22 @@ class _ItemContainerState extends State<ItemContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final _pageSize = MediaQuery.of(context).size;
-
-    return GestureDetector(
-      onPanEnd: handlePanEnd,
-      onPanUpdate: handlePanUpdate,
-      child: Container(
-        alignment: Alignment.center,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              child: widget.child(),
-              left: _pageSize.width / 2 -
-                  _cardWidth / 2 +
-                  _dx +
-                  widget.animationValue,
-              top: _pageSize.height / 2 -
-                  _cardHeight / 2 +
-                  -widget.animationValue.abs() / 3 +
-                  _dy,
-            ),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Align(
+          alignment: Alignment(
+            0.0 + (_dx + widget.animationValue) / (constraints.maxWidth / 2),
+            0.0 +
+                (_dy - widget.animationValue.abs() / 3) /
+                    (constraints.maxHeight / 2),
+          ),
+          child: GestureDetector(
+            onPanEnd: handlePanEnd,
+            onPanUpdate: handlePanUpdate,
+            child: widget.child(),
+          ),
+        );
+      },
     );
   }
 }

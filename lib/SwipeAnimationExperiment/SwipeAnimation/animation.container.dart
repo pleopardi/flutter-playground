@@ -38,6 +38,11 @@ class _AnimationContainerState extends State<AnimationContainer>
     _animation = _tween.animate(_curve)
       ..addListener(() {
         setState(() {});
+      })
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reset();
+        }
       });
   }
 
