@@ -37,41 +37,49 @@ class _ItemContainerState extends State<ItemContainer> {
   double _dx = 0.0;
   double _dy = 0.0;
 
-  void handlePanEnd(DragEndDetails details) {
+  Future<void> dismiss() async {
+    widget.setTweenBegin(0.0);
+    widget.setTweenEnd(-10.0);
+    return widget.animate().then((void value) {
+      if (widget.handleDismiss != null) {
+        widget.handleDismiss(value);
+      }
+
+      // Move back to center
+      setState(() {
+        _dx = 0;
+        _dy = 0;
+      });
+    });
+  }
+
+  Future<void> save() async {
+    widget.setTweenBegin(0.0);
+    widget.setTweenEnd(10.0);
+    return widget.animate().then((void value) {
+      if (widget.handleSave != null) {
+        widget.handleSave(value);
+      }
+
+      // Move back to center
+      setState(() {
+        _dx = 0;
+        _dy = 0;
+      });
+    });
+  }
+
+  void handlePanEnd(DragEndDetails _) async {
     // Move right
     if (_dx > widget.animationThreshold) {
-      widget.setTweenBegin(0.0);
-      widget.setTweenEnd(500.0);
-      widget.animate().then((void value) {
-        if (widget.handleSave != null) {
-          widget.handleSave(value);
-        }
-
-        // Move back to center
-        setState(() {
-          _dx = 0;
-          _dy = 0;
-        });
-      });
+      await save();
 
       return;
     }
 
     // Move left
     if (_dx < -widget.animationThreshold) {
-      widget.setTweenBegin(0.0);
-      widget.setTweenEnd(-500.0);
-      widget.animate().then((void value) {
-        if (widget.handleDismiss != null) {
-          widget.handleDismiss(value);
-        }
-
-        // Move back to center
-        setState(() {
-          _dx = 0;
-          _dy = 0;
-        });
-      });
+      await dismiss();
 
       return;
     }
@@ -96,11 +104,10 @@ class _ItemContainerState extends State<ItemContainer> {
       builder: (BuildContext context, BoxConstraints constraints) {
         return Align(
           alignment: Alignment(
-            0.0 + (_dx + widget.animationValue) / (constraints.maxWidth / 2),
-            0.0 +
-                (_dy - widget.animationValue.abs() / 3) /
-                    (constraints.maxHeight / 2),
-          ),
+              0.0 + _dx / (constraints.maxWidth / 2) + widget.animationValue,
+              0.0 +
+                  _dy / (constraints.maxHeight / 2) -
+                  widget.animationValue.abs() / 10),
           child: GestureDetector(
             onPanEnd: handlePanEnd,
             onPanUpdate: handlePanUpdate,
