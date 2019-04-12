@@ -17,7 +17,7 @@ class SwipeAnimationPage extends StatelessWidget {
       body: SwipeAnimation(
         handleDismiss: handleDismiss,
         handleSave: handleSave,
-        renderChild: () => Item(),
+        item: Item(),
       ),
     );
   }

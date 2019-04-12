@@ -10,7 +10,7 @@ class ItemContainer extends StatefulWidget {
   @required
   final double animationValue; // Current animation value
   @required
-  final Function child;
+  final Widget child;
   final Function handleDismiss;
   final Function handleSave;
   @required
@@ -111,7 +111,7 @@ class _ItemContainerState extends State<ItemContainer> {
           child: GestureDetector(
             onPanEnd: handlePanEnd,
             onPanUpdate: handlePanUpdate,
-            child: widget.child(),
+            child: widget.child,
           ),
         );
       },

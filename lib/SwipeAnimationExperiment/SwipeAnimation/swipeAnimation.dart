@@ -7,13 +7,13 @@ class SwipeAnimation extends StatelessWidget {
   final Function handleDismiss;
   final Function handleSave;
   @required
-  final Function renderChild;
+  final Widget item;
 
   SwipeAnimation({
     this.animationThreshold = 100.0,
     this.handleDismiss,
     this.handleSave,
-    this.renderChild,
+    this.item,
   });
 
   @override
@@ -29,7 +29,7 @@ class SwipeAnimation extends StatelessWidget {
           animate: animate,
           animationThreshold: animationThreshold,
           animationValue: animationValue,
-          child: renderChild,
+          child: item,
           handleDismiss: handleDismiss,
           handleSave: handleSave,
           setTweenBegin: setTweenBegin,
