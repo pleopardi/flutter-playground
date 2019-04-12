@@ -1,17 +1,13 @@
 import "package:flutter/material.dart";
+import "./data.dart";
 
 class Item extends StatelessWidget {
   final MaterialColor color;
-  final double height;
   final String text;
-  final double width;
 
-  Item({
-    this.color = Colors.red,
-    this.height = 150.0,
-    this.text = "Item",
-    this.width = 200.0,
-  });
+  Item(ItemData itemData)
+      : color = itemData.color,
+        text = itemData.text;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +15,8 @@ class Item extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Container(
         color: color,
-        height: height,
-        width: width,
+        height: 200.0,
+        width: 300.0,
         child: Center(
           child: Text(
             text,
