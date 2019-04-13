@@ -18,6 +18,15 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
+                Navigator.pushNamed(context, "/dismissibleItemsList");
+              },
+              title: Text("Dismissible Items List"),
+              trailing: Icon(
+                Icons.arrow_forward,
+              ),
+            ),
+            ListTile(
+              onTap: () {
                 Navigator.pushNamed(context, "/swipeAnimation");
               },
               title: Text("Swipe Animation"),
