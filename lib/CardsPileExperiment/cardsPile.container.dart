@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "../SwipeAnimationExperiment/SwipeAnimation/swipeAnimation.dart";
 
 class CardsPileContainer extends StatefulWidget {
+  final double alignmentFactor;
   @required
   final List<dynamic> itemsData;
   final Function onCompletion;
@@ -9,14 +10,17 @@ class CardsPileContainer extends StatefulWidget {
   final Function onSave;
   @required
   final Function renderItem;
+  final double scaleFactor;
   final int shownItemsCount;
 
   CardsPileContainer({
+    this.alignmentFactor = 0.05,
     this.itemsData,
     this.onCompletion,
     this.onDismiss,
     this.onSave,
     this.renderItem,
+    this.scaleFactor = 0.05,
     this.shownItemsCount = 5,
   });
 
@@ -58,9 +62,9 @@ class _CardsPileContainerState extends State<CardsPileContainer> {
         }
 
         return Align(
-          alignment: Alignment(0, 0 - 0.05 * index),
+          alignment: Alignment(0, 0 - widget.alignmentFactor * index),
           child: Transform.scale(
-            scale: 1 - 0.05 * index,
+            scale: 1 - widget.scaleFactor * index,
             child: widget.renderItem(currentItemData),
           ),
         );
@@ -108,7 +112,7 @@ class _CardsPileContainerState extends State<CardsPileContainer> {
           getSublist(
             list: widget.itemsData,
             initialIndex: frontCardIndex,
-            maxLength: 5,
+            maxLength: widget.shownItemsCount,
           ),
         ),
       ),

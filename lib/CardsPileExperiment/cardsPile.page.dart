@@ -11,6 +11,7 @@ class CardsPilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CardsPileContainer(
+        alignmentFactor: 0.06,
         onCompletion: () {
           print("Completed");
         },
@@ -22,6 +23,8 @@ class CardsPilePage extends StatelessWidget {
         },
         itemsData: itemsData,
         renderItem: (itemData) => Item(itemData),
+        scaleFactor: 0.06,
+        shownItemsCount: 6,
       ),
     );
   }
