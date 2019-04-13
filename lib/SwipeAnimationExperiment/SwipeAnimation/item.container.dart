@@ -10,7 +10,7 @@ class ItemContainer extends StatefulWidget {
   @required
   final double animationValue; // Current animation value
   @required
-  final Function child;
+  final Widget child;
   final Function handleDismiss;
   final Function handleSave;
   @required
@@ -34,34 +34,52 @@ class ItemContainer extends StatefulWidget {
 }
 
 class _ItemContainerState extends State<ItemContainer> {
-  final double _cardHeight = 200.0;
-  final double _cardWidth = 200.0;
   double _dx = 0.0;
   double _dy = 0.0;
 
-  void handlePanEnd(DragEndDetails details) {
+  Future<void> dismiss() async {
+    widget.setTweenBegin(0.0);
+    widget.setTweenEnd(-10.0);
+    return widget.animate().then((void value) {
+      if (widget.handleDismiss != null) {
+        widget.handleDismiss(value);
+      }
+
+      // Move back to center
+      setState(() {
+        _dx = 0;
+        _dy = 0;
+      });
+    });
+  }
+
+  Future<void> save() async {
+    widget.setTweenBegin(0.0);
+    widget.setTweenEnd(10.0);
+    return widget.animate().then((void value) {
+      if (widget.handleSave != null) {
+        widget.handleSave(value);
+      }
+
+      // Move back to center
+      setState(() {
+        _dx = 0;
+        _dy = 0;
+      });
+    });
+  }
+
+  void handlePanEnd(DragEndDetails _) async {
     // Move right
     if (_dx > widget.animationThreshold) {
-      widget.setTweenBegin(0.0);
-      widget.setTweenEnd(500.0);
-      widget.animate().then((void value) {
-        if (widget.handleSave != null) {
-          widget.handleSave(value);
-        }
-      });
+      await save();
 
       return;
     }
 
     // Move left
     if (_dx < -widget.animationThreshold) {
-      widget.setTweenBegin(0.0);
-      widget.setTweenEnd(-500.0);
-      widget.animate().then((void value) {
-        if (widget.handleDismiss != null) {
-          widget.handleDismiss(value);
-        }
-      });
+      await dismiss();
 
       return;
     }
@@ -82,30 +100,21 @@ class _ItemContainerState extends State<ItemContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final _pageSize = MediaQuery.of(context).size;
-
-    return GestureDetector(
-      onPanEnd: handlePanEnd,
-      onPanUpdate: handlePanUpdate,
-      child: Container(
-        alignment: Alignment.center,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              child: widget.child(),
-              left: _pageSize.width / 2 -
-                  _cardWidth / 2 +
-                  _dx +
-                  widget.animationValue,
-              top: _pageSize.height / 2 -
-                  _cardHeight / 2 +
-                  -widget.animationValue.abs() / 3 +
-                  _dy,
-            ),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Align(
+          alignment: Alignment(
+              0.0 + _dx / (constraints.maxWidth / 2) + widget.animationValue,
+              0.0 +
+                  _dy / (constraints.maxHeight / 2) -
+                  widget.animationValue.abs() / 10),
+          child: GestureDetector(
+            onPanEnd: handlePanEnd,
+            onPanUpdate: handlePanUpdate,
+            child: widget.child,
+          ),
+        );
+      },
     );
   }
 }
