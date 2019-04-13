@@ -1,5 +1,25 @@
 import "package:flutter/material.dart";
 
+class ListItem extends StatelessWidget {
+  final String route;
+  final String title;
+
+  ListItem({this.route, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        Navigator.pushNamed(context, route);
+      },
+      title: Text(title),
+      trailing: Icon(
+        Icons.arrow_forward,
+      ),
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -7,42 +27,12 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: ListView(
           children: <Widget>[
-            ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, "/cardsPile");
-              },
-              title: Text("Cards' Pile"),
-              trailing: Icon(
-                Icons.arrow_forward,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, "/dismissibleItemsList");
-              },
-              title: Text("Dismissible Items List"),
-              trailing: Icon(
-                Icons.arrow_forward,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, "/geocoding");
-              },
-              title: Text("Geocoding"),
-              trailing: Icon(
-                Icons.arrow_forward,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, "/swipeAnimation");
-              },
-              title: Text("Swipe Animation"),
-              trailing: Icon(
-                Icons.arrow_forward,
-              ),
-            )
+            ListItem(route: "/cardsPile", title: "Cards' Pile"),
+            ListItem(
+                route: "/dismissibleItemsList",
+                title: "Dismissible Items List"),
+            ListItem(route: "/geocoding", title: "Geocoding"),
+            ListItem(route: "/swipeAnimation", title: "Swipe Animation"),
           ],
         ),
       ),
