@@ -27,6 +27,15 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
+                Navigator.pushNamed(context, "/geocoding");
+              },
+              title: Text("Geocoding"),
+              trailing: Icon(
+                Icons.arrow_forward,
+              ),
+            ),
+            ListTile(
+              onTap: () {
                 Navigator.pushNamed(context, "/swipeAnimation");
               },
               title: Text("Swipe Animation"),
